@@ -1,47 +1,25 @@
 
+import 'package:car_rental/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:car_rental/core/network/connection_checker.dart';
 import 'package:car_rental/core/secrets/app_secrets.dart';
 import 'package:car_rental/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:car_rental/features/auth/data/repositries/auth_repository_impl.dart';
 import 'package:car_rental/features/auth/domain/repository/auth_repository.dart';
+import 'package:car_rental/features/auth/domain/usecases/current_user.dart';
 import 'package:car_rental/features/auth/domain/usecases/user_login.dart';
 import 'package:car_rental/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:car_rental/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:car_rental/features/blog/data/datasources/blog_local_data_source.dart';
+import 'package:car_rental/features/blog/data/datasources/blog_remote_data_source.dart';
+import 'package:car_rental/features/blog/data/repositories/blog_repository_impl.dart';
+import 'package:car_rental/features/blog/domain/repositories/blog_repository.dart';
+import 'package:car_rental/features/blog/domain/usecases/get_all_blogs.dart';
+import 'package:car_rental/features/blog/domain/usecases/upload_blog.dart';
+import 'package:car_rental/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-final serviceLocator= GetIt.instance;
-
-
-Future<void> initDependencies() async{
-  _initAuth();
-  final supabase =await Supabase.initialize(
-    url:AppSecrets.supabaseUrl,
-    anonKey:AppSecrets.supabaseAnonKey,
-   );
-   serviceLocator.registerLazySingleton(()=>supabase.client);
-}
-
-void _initAuth(){
-  serviceLocator.registerFactory<AuthRemoteDataSource>(() => 
-  AuthRemoteDataSourceImpl(
-    serviceLocator()),);
-
-    serviceLocator.registerFactory<AuthRepository>(
-      ()=> AuthRepositoryImpl(
-        serviceLocator(),
-      )
-    );
-    serviceLocator.registerFactory(
-      ()=> UserSignUp(
-        serviceLocator(),
-      )
-    );
-    serviceLocator.registerFactory(() => 
-    UserLogin(serviceLocator(),),
-    );
-
-    serviceLocator.registerLazySingleton(()=>AuthBloc(
-      userSignUp: serviceLocator(),
-      userLogin: serviceLocator(),
-    ));
-}
+part 'init_dependencies.main.dart';

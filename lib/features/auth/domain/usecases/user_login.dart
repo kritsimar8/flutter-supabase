@@ -2,7 +2,7 @@
 
 import 'package:car_rental/core/error/failures.dart';
 import 'package:car_rental/core/usecase/usecase.dart';
-import 'package:car_rental/features/auth/domain/entities/user.dart';
+import 'package:car_rental/core/common/entities/user.dart';
 import 'package:car_rental/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
